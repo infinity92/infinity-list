@@ -27,7 +27,6 @@ class RegistrationRequest extends FormRequest
             'name' => 'nullable|string',
             'email' => 'required|email:rfc,dns',
             'password' => 'required|min:6|confirmed',
-//            'password_confirmation' => 'confirmed',
         ];
     }
 }

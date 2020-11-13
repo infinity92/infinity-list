@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\v1\RegistrationController;
+use App\Http\Controllers\Api\v1\AuthController;
 
 /*
 |--------------------------------------------------------------------------
@@ -19,6 +20,11 @@ Route::get('/email/verify/{id}/{hash}', [RegistrationController::class, 'verify'
 Route::name('public.')->group(function () {
     Route::prefix('v1')->group(function () {
         Route::post('register', [RegistrationController::class, 'register'])->name('registration');
+        Route::post('login', [AuthController::class, 'login'])->name('login');
+
+        Route::middleware('auth:sanctum')->group(function () {
+
+        });
     });
 });
 //Route::middleware('auth:api')->get('/user', function (Request $request) {

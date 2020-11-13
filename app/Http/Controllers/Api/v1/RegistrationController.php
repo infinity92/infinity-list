@@ -7,8 +7,6 @@ use App\Http\Requests\RegistrationRequest;
 use App\Managers\UserManager;
 use App\Models\User;
 use Illuminate\Auth\AuthenticationException;
-use Illuminate\Foundation\Auth\EmailVerificationRequest;
-use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
 class RegistrationController extends Controller

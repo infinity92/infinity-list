@@ -9,6 +9,7 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Events\Verified;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
+use Illuminate\Support\Facades\Hash;
 
 class UserManager
 {
@@ -27,6 +28,7 @@ class UserManager
 
     public function add(array $data)
     {
+        $data['password'] = Hash::make($data['password']);
         return User::create($data);
     }
 
