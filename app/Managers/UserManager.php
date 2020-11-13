@@ -37,4 +37,22 @@ class UserManager
         event(new Verified($user));
     }
 
+    public function checkVerifiedCode(MustVerifyEmail $user, $id, $hash)
+    {
+        if ($user->hasVerifiedEmail()) {
+            return false;
+        }
+
+        if (! hash_equals((string) $id,
+            (string) $user->getKey())) {
+            return false;
+        }
+
+        if (! hash_equals((string) $hash,
+            sha1($user->getEmailForVerification()))) {
+            return false;
+        }
+
+        return true;
+    }
 }

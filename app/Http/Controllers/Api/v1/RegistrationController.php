@@ -5,6 +5,8 @@ namespace App\Http\Controllers\Api\v1;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\RegistrationRequest;
 use App\Managers\UserManager;
+use App\Models\User;
+use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -18,8 +20,14 @@ class RegistrationController extends Controller
         return new JsonResource($user);
     }
 
-    public function verify(EmailVerificationRequest $request, UserManager $userManager)
+    public function verify($id, $hash, UserManager $userManager)
     {
-        $userManager->verified($request->user());
+        $user = User::find($id);
+        if ($user && $userManager->checkVerifiedCode($user, $id, $hash) ) {
+            $userManager->verified($user);
+            return new JsonResource($user);
+        }
+
+        throw new AuthenticationException('User email verification error');
     }
 }
