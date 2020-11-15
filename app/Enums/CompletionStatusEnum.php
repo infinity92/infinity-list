@@ -4,7 +4,7 @@
 namespace App\Enums;
 
 
-class CompletionStatusEnum extends \SplEnum
+class CompletionStatusEnum extends Enum
 {
     const __default = self::SUCCESS;
 
