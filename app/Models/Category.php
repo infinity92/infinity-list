@@ -3,11 +3,12 @@
 namespace App\Models;
 
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 /**
- * Class Task
+ * Class Category
  * @package App\Models
  *
  * @property int $id
@@ -24,14 +25,13 @@ use Illuminate\Database\Eloquent\Model;
  * @property int $sort
  * @property boolean $is_complete
  * @property boolean $is_someday
- * @property int $category_id
- * @property Category $category
+ * @property Collection $tasks
  */
-class Task extends Model
+class Category extends Model
 {
     use HasFactory;
 
-    protected $table = 'tasks';
+    protected $table = 'categories';
 
     protected $fillable = [
         'name',
@@ -44,10 +44,10 @@ class Task extends Model
     ];
 
     /**
-     * @return \Illuminate\Database\Eloquent\Relations\BelongsTo
+     * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */
-    public function category()
+    public function tasks()
     {
-        return $this->belongsTo(Category::class, 'category_id', 'id');
+        return $this->hasMany(Task::class, 'category_id', 'id');
     }
 }
