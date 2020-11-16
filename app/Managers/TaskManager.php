@@ -14,6 +14,7 @@ use App\Events\BeforeDuplicateTask;
 use App\Events\BeforeUpdateTask;
 use App\Events\CompleteTask;
 use App\Events\RestoreTask;
+use App\Models\Category;
 use App\Models\Task;
 use Carbon\Carbon;
 
@@ -105,14 +106,45 @@ class TaskManager
         return $task->delete();
     }
 
-    public function move()
+    /**
+     * Move to another category
+     *
+     * @param Task $task
+     * @param Category|null $category
+     * @return Task
+     */
+    public function move(Task $task, Category $category = null)
     {
-        //
+        $task->category_id = $category ? $category->id : null;
+
+        return $task;
     }
 
-    public function transform()
+    /**
+     * Convert task to category
+     *
+     * @param Task $task
+     * @return Category
+     * @throws \Throwable
+     */
+    public function transform(Task $task)
     {
-        //
+        $category = new Category();
+        $category->name = $task->name;
+        $category->description = $task->description;
+        $category->start_date = $task->start_date;
+        $category->user_id = $task->user_id;
+        $category->notification = $task->notification;
+        $category->deadline = $task->deadline;
+        $category->is_complete = $task->is_complete;
+        $category->is_someday = $task->is_someday;
+        $category->completion_date = $task->completion_date;
+        $category->completion_status = $task->completion_status;
+//        $category->sort = $task->sort; //todo сделать логику добавления категории в конец
+        $category->saveOrFail();
+        $task->delete();
+
+        return $category;
     }
 
     /**
