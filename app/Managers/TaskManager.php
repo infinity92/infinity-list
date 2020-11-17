@@ -156,14 +156,15 @@ class TaskManager
      * Duplicate the task
      *
      * @param Task $task
-     * @return bool
+     * @return Task
      */
     public function duplicate(Task $task)
     {
         event(new BeforeDuplicateTask($task));
         $newTask = $task->replicate();
         event(new AfterDuplicateTask($newTask));
+        $newTask->push();
 
-        return $newTask->push();
+        return $newTask;
     }
 }
