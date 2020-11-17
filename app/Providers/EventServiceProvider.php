@@ -23,11 +23,20 @@ class EventServiceProvider extends ServiceProvider
         'App\Events\BeforeUpdateTask' => [],
         'App\Events\AfterUpdateTask' => [],
         'App\Events\BeforeDeleteTask' => [],
-        'App\Events\AfterDeleteTask' => [],
         'App\Events\BeforeDuplicateTask' => [],
         'App\Events\AfterDuplicateTask' => [],
         'App\Events\CompleteTask' => [],
         'App\Events\RestoreTask' => [],
+        'App\Events\BeforeTransformTask' => [],
+        'App\Events\AfterTransformTask' => [],
+
+        'App\Events\BeforeCreateCategory' => [],
+        'App\Events\AfterCreateCategory' => [],
+        'App\Events\BeforeUpdateCategory' => [],
+        'App\Events\AfterUpdateCategory' => [],
+        'App\Events\BeforeDeleteCategory' => [],
+        'App\Events\CompleteCategory' => [],
+        'App\Events\RestoreCategory' => [],
     ];
 
     /**

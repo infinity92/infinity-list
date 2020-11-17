@@ -7,10 +7,12 @@ namespace App\Managers;
 use App\Enums\CompletionStatusEnum;
 use App\Events\AfterCreateTask;
 use App\Events\AfterDuplicateTask;
+use App\Events\AfterTransformTask;
 use App\Events\AfterUpdateTask;
 use App\Events\BeforeCreateTask;
 use App\Events\BeforeDeleteTask;
 use App\Events\BeforeDuplicateTask;
+use App\Events\BeforeTransformTask;
 use App\Events\BeforeUpdateTask;
 use App\Events\CompleteTask;
 use App\Events\RestoreTask;
@@ -129,6 +131,7 @@ class TaskManager
      */
     public function transform(Task $task)
     {
+        event(new BeforeTransformTask($task));
         $category = new Category();
         $category->name = $task->name;
         $category->description = $task->description;
@@ -143,6 +146,8 @@ class TaskManager
 //        $category->sort = $task->sort; //todo сделать логику добавления категории в конец
         $category->saveOrFail();
         $task->delete();
+
+        event(new AfterTransformTask($category));
 
         return $category;
     }
