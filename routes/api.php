@@ -4,6 +4,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\v1\RegistrationController;
 use App\Http\Controllers\Api\v1\AuthController;
+use App\Http\Controllers\Api\v1\TaskController;
 
 /*
 |--------------------------------------------------------------------------
@@ -23,10 +24,13 @@ Route::name('public.')->group(function () {
         Route::post('login', [AuthController::class, 'login'])->name('login');
 
         Route::middleware('auth:sanctum')->group(function () {
-
+            Route::post('task/create', [TaskController::class, 'create'])->name('task.create');
+            Route::post('task/update/{task}', [TaskController::class, 'update'])->name('task.update');
+            Route::delete('task/delete/{task}', [TaskController::class, 'delete'])->name('task.delete');
+            Route::put('task/transform/{task}', [TaskController::class, 'transform'])->name('task.transform');
+            Route::put('task/duplicate/{task}', [TaskController::class, 'duplicate'])->name('task.duplicate');
+            Route::put('task/complete/{task}', [TaskController::class, 'complete'])->name('task.complete');
+            Route::put('task/restore/{task}', [TaskController::class, 'restore'])->name('task.restore');
         });
     });
 });
-//Route::middleware('auth:api')->get('/user', function (Request $request) {
-//    return $request->user();
-//});
