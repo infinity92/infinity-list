@@ -14,6 +14,7 @@ use App\Events\CompleteCategory;
 use App\Events\RestoreCategory;
 use App\Models\Category;
 use Carbon\Carbon;
+use Illuminate\Database\Eloquent\Collection;
 
 class CategoryManager
 {
@@ -101,5 +102,30 @@ class CategoryManager
         event(new BeforeDeleteCategory($category));
 
         return $category->delete();
+    }
+
+    /**
+     * Duplicate the task
+     *
+     * @param Category $category
+     * @return bool
+     */
+    public function duplicate(Category $category)
+    {
+        $newCategory = $category->replicate();
+        $result = $newCategory->push();
+        if(!$result) {
+            return false;
+        }
+
+        $tasks = $category->tasks;
+        foreach ($tasks as $task) {
+            $task->category()->associate($newCategory);
+            if (!$task->replicate()->push()) {
+                return false;
+            }
+        }
+
+        return true;
     }
 }
