@@ -25,7 +25,7 @@ Route::name('public.')->group(function () {
 
         Route::middleware('auth:sanctum')->group(function () {
             Route::post('task/create', [TaskController::class, 'create'])->name('task.create');
-            Route::post('task/update/{task}', [TaskController::class, 'update'])->name('task.update');
+            Route::put('task/update/{task}', [TaskController::class, 'update'])->name('task.update');
             Route::delete('task/delete/{task}', [TaskController::class, 'delete'])->name('task.delete');
             Route::put('task/transform/{task}', [TaskController::class, 'transform'])->name('task.transform');
             Route::put('task/duplicate/{task}', [TaskController::class, 'duplicate'])->name('task.duplicate');
