@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\Api\v1\RegistrationController;
 use App\Http\Controllers\Api\v1\AuthController;
 use App\Http\Controllers\Api\v1\TaskController;
+use App\Http\Controllers\Api\v1\CategoryController;
 
 /*
 |--------------------------------------------------------------------------
@@ -31,6 +32,13 @@ Route::name('public.')->group(function () {
             Route::put('task/duplicate/{task}', [TaskController::class, 'duplicate'])->name('task.duplicate');
             Route::put('task/complete/{task}', [TaskController::class, 'complete'])->name('task.complete');
             Route::put('task/restore/{task}', [TaskController::class, 'restore'])->name('task.restore');
+
+            Route::post('category/create', [CategoryController::class, 'create'])->name('category.create');
+            Route::put('category/update/{category}', [CategoryController::class, 'update'])->name('category.update');
+            Route::delete('category/delete/{category}', [CategoryController::class, 'delete'])->name('category.delete');
+            Route::put('category/duplicate/{category}', [CategoryController::class, 'duplicate'])->name('category.duplicate');
+            Route::put('category/complete/{category}', [CategoryController::class, 'complete'])->name('category.complete');
+            Route::put('category/restore/{category}', [CategoryController::class, 'restore'])->name('category.restore');
         });
     });
 });

@@ -14,5 +14,10 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
+
+    $c = \App\Models\Category::query()->find(2);
+//    $c->load('tasks');
+    dd($c->getRelations());
+
     return view('welcome');
 });

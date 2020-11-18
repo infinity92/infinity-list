@@ -88,7 +88,7 @@ class TaskManager
     public function update(Task $task, $data)
     {
         event(new BeforeUpdateTask($task, $data));
-        $result = $task->update($data);
+        $result = $task->fill($data)->saveOrFail();
         event(new AfterUpdateTask($task));
 
         return $result;

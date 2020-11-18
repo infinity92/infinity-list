@@ -81,10 +81,11 @@ class CategoryManager
      * @param $data
      * @return bool
      */
-    public function update(Category $category, $data)
+    public function update(Category $category, array $data)
     {
         event(new BeforeUpdateCategory($category, $data));
-        $result = $category->update($data);
+//        dd($category->fill($data)->toArray());
+        $result = $category->fill($data)->saveOrFail();
         event(new AfterUpdateCategory($category));
 
         return $result;
@@ -108,24 +109,20 @@ class CategoryManager
      * Duplicate the task
      *
      * @param Category $category
-     * @return bool
+     * @return Category
      */
     public function duplicate(Category $category)
     {
+        $category->load('tasks');
         $newCategory = $category->replicate();
-        $result = $newCategory->push();
-        if(!$result) {
-            return false;
+        $newCategory->push();
+
+        foreach ($category->tasks as $task) {
+            $newTask = $task->replicate();
+            $newTask->category_id = $newCategory->id;
+            $newTask->push();
         }
 
-        $tasks = $category->tasks;
-        foreach ($tasks as $task) {
-            $task->category()->associate($newCategory);
-            if (!$task->replicate()->push()) {
-                return false;
-            }
-        }
-
-        return true;
+        return $newCategory;
     }
 }
