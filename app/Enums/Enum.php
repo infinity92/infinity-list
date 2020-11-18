@@ -4,6 +4,8 @@
 namespace App\Enums;
 
 
+use phpDocumentor\Reflection\Types\Static_;
+
 abstract class Enum
 {
     const __default = null;
@@ -12,7 +14,7 @@ abstract class Enum
 
     public function __construct($value = null)
     {
-        $acceptValues = array_values($this->getConstants());
+        $acceptValues = array_values(static::getConstants());
         if (!in_array($value, $acceptValues)) {
             throw new \Exception('Incorrect enum value');
         }
@@ -20,8 +22,8 @@ abstract class Enum
         $this->value = $value;
     }
 
-    public function getConstants() {
-        $oClass = new \ReflectionClass(__CLASS__);
+    public static function getConstants() {
+        $oClass = new \ReflectionClass(static::class);
         return $oClass->getConstants();
     }
 

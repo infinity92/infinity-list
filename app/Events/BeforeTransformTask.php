@@ -3,6 +3,7 @@
 namespace App\Events;
 
 use App\Models\Category;
+use App\Models\Task;
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Broadcasting\PresenceChannel;
@@ -20,9 +21,9 @@ class BeforeTransformTask
     /**
      * Create a new event instance.
      *
-     * @param Category $category
+     * @param Task $category
      */
-    public function __construct(Category $category)
+    public function __construct(Task $category)
     {
         $this->category = $category;
     }

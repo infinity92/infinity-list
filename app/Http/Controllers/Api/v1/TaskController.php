@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Api\v1;
 
 use App\Enums\CompletionStatusEnum;
 use App\Http\Controllers\Controller;
+use App\Http\Requests\TaskCompleteRequest;
 use App\Http\Requests\TaskRequest;
 use App\Managers\TaskManager;
 use App\Models\Task;
@@ -48,7 +49,7 @@ class TaskController extends Controller
         return JsonResource::make($newTask);
     }
 
-    public function complete(Task $task, TaskRequest $request, TaskManager $taskManager)
+    public function complete(Task $task, TaskCompleteRequest $request, TaskManager $taskManager)
     {
         $task = $taskManager->complete($task, new CompletionStatusEnum($request->status));
 
