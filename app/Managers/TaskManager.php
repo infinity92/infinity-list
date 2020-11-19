@@ -114,10 +114,12 @@ class TaskManager
      * @param Task $task
      * @param Category|null $category
      * @return Task
+     * @throws \Throwable
      */
     public function move(Task $task, Category $category = null)
     {
         $task->category_id = $category ? $category->id : null;
+        $task->saveOrFail();
 
         return $task;
     }
@@ -166,5 +168,70 @@ class TaskManager
         $newTask->push();
 
         return $newTask;
+    }
+
+    public function getInboxList()
+    {
+        return Task::query()
+            ->whereNull('category_id')
+            ->whereNull('start_date')
+            ->where('is_someday', false)
+            ->where('is_complete', '<>',true)
+            ->get();
+    }
+
+    public function getTodayList()
+    {
+        return Task::query()
+            ->whereDate('start_date', Carbon::today())
+            ->get();
+    }
+
+    public function getTomorrowList()
+    {
+        return Task::query()
+            ->whereDate('start_date', Carbon::tomorrow())
+            ->get();
+    }
+
+    public function getAnyList()
+    {
+        return Task::query()
+            ->where('is_complete', '<>',true)
+            ->get();
+    }
+
+    public function getCategoryList(Category $category)
+    {
+        return $category->tasks;
+    }
+
+    public function getSomedayList()
+    {
+        return Task::query()
+            ->where('is_someday', true)
+            ->get();
+    }
+
+    public function getArchiveList()
+    {
+        return Task::query()
+            ->where('is_complete', true)
+            ->get();
+    }
+
+    public function getScheduledList()
+    {
+        $tomorrow = Carbon::tomorrow();
+        $endWeek = Carbon::tomorrow()->addWeek();
+        $beginMonth = Carbon::tomorrow()->addWeek()->addDay();
+        $endFourMonth = Carbon::tomorrow()->addWeek()->addDay()->addMonths(4);
+
+        $query =  Task::query()
+            ->orWhereBetween('start_date', [$tomorrow, $endWeek])
+            ->orWhereBetween('start_date', [$beginMonth, $endFourMonth]);
+
+
+        return $query->get();
     }
 }

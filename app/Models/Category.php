@@ -43,6 +43,12 @@ class Category extends Model
         'is_someday',
     ];
 
+    protected $dates = [
+        'start_date',
+        'notification',
+        'deadline',
+    ];
+
     /**
      * @return \Illuminate\Database\Eloquent\Relations\HasMany
      */

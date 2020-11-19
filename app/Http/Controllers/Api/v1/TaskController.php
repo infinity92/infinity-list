@@ -5,9 +5,12 @@ namespace App\Http\Controllers\Api\v1;
 use App\Enums\CompletionStatusEnum;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\CompleteRequest;
+use App\Http\Requests\MoveTaskRequest;
 use App\Http\Requests\TaskRequest;
 use App\Managers\TaskManager;
+use App\Models\Category;
 use App\Models\Task;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 use Illuminate\Support\Facades\Auth;
@@ -61,5 +64,14 @@ class TaskController extends Controller
         $task = $taskManager->restore($task);
 
         return JsonResource::make($task);
+    }
+
+    public function move(Task $task, MoveTaskRequest $request, TaskManager $taskManager)
+    {
+        $categoryId = intval($request->category_id);
+        $category = Category::find($categoryId);
+        $taskManager->move($task, $category);
+
+        return response(['success' => true], 200);
     }
 }
