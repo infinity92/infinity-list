@@ -27,7 +27,6 @@ class Option extends Model
     protected $fillable = [
         'name',
         'sort',
-        'task_id',
     ];
 
     public function task()
