@@ -26,6 +26,7 @@ use Illuminate\Database\Eloquent\Model;
  * @property boolean $is_someday
  * @property int $category_id
  * @property Category $category
+ * @property Category $options
  */
 class Task extends Model
 {
@@ -55,5 +56,10 @@ class Task extends Model
     public function category()
     {
         return $this->belongsTo(Category::class, 'category_id', 'id');
+    }
+
+    public function options()
+    {
+        return $this->hasMany(Option::class, 'task_id', 'id');
     }
 }
