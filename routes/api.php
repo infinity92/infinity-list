@@ -7,6 +7,7 @@ use App\Http\Controllers\Api\v1\AuthController;
 use App\Http\Controllers\Api\v1\TaskController;
 use App\Http\Controllers\Api\v1\CategoryController;
 use App\Http\Controllers\Api\v1\ListController;
+use \App\Http\Controllers\Api\v1\OptionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -48,6 +49,12 @@ Route::name('public.')->group(function () {
             Route::get('list/tomorrow', [ListController::class, 'tomorrow'])->name('list.tomorrow');
             Route::get('list/archive', [ListController::class, 'archive'])->name('list.archive');
             Route::get('list/schedule', [ListController::class, 'schedule'])->name('list.schedule');
+
+            Route::post('option/create/task/{task}', [OptionController::class, 'create'])->name('option.create');
+            Route::put('option/update/{option}', [OptionController::class, 'update'])->name('option.update');
+            Route::delete('option/delete/{option}', [OptionController::class, 'delete'])->name('option.delete');
+            Route::put('option/complete/{option}', [OptionController::class, 'complete'])->name('option.complete');
+            Route::put('option/restore/{option}', [OptionController::class, 'restore'])->name('option.restore');
         });
     });
 });
