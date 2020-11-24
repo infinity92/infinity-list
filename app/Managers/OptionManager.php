@@ -25,7 +25,7 @@ class OptionManager
     }
 
     /**
-     * Mark the task as complete
+     * Mark the option as complete
      *
      * @param Option $option
      * @return Option
@@ -40,7 +40,7 @@ class OptionManager
     }
 
     /**
-     * Return the task to list
+     * Return the option to list
      *
      * @param Option $option
      * @return Option
@@ -55,7 +55,7 @@ class OptionManager
     }
 
     /**
-     * Update the task
+     * Update the option
      *
      * @param Option $option
      * @param $data
@@ -63,13 +63,11 @@ class OptionManager
      */
     public function update(Option $option, $data)
     {
-        $result = $option->fill($data)->saveOrFail();
-
-        return $result;
+        return $option->fill($data)->saveOrFail();
     }
 
     /**
-     * Delete the task
+     * Delete the option
      *
      * @param Option $option
      * @return bool|null
