@@ -8,31 +8,42 @@ use App\Managers\OptionManager;
 use App\Models\Option;
 use App\Models\Task;
 use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\JsonResource;
 
 class OptionController extends Controller
 {
     public function create(Task $task, OptionRequest $request, OptionManager $optionManager)
     {
-        $optionManager->create($task->id, $request->all());
+        $option = $optionManager->create($task->id, $request->all());
+
+        return JsonResource::make($option);
     }
 
     public function update(Option $option, OptionRequest $request, OptionManager $optionManager)
     {
         $optionManager->update($option, $request->all());
+
+        return JsonResource::make($option);
     }
 
     public function delete(Option $option, OptionManager $optionManager)
     {
         $optionManager->delete($option);
+
+        return response(['success' => true], 200);
     }
 
     public function complete(Option $option, OptionManager $optionManager)
     {
-        $optionManager->complete($option);
+        $option = $optionManager->complete($option);
+
+        return JsonResource::make($option);
     }
 
     public function restore(Option $option, OptionManager $optionManager)
     {
-        $optionManager->restore($option);
+        $option = $optionManager->restore($option);
+
+        return JsonResource::make($option);
     }
 }
